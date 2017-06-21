@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen"/>-->
+    <!--<link href="css/bootstrap.min.css" rel="stylesheet"/>-->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}" media="screen,projection"/>
+    <meta charset="UTF-8">
+    <title>To Do Lists</title>
+</head>
+<body class="lead" class="text-justify">
+    <h1 align="center"><u>All To Do Lists Are:</u><br><br><a href="create/" class="btn btn-warning">Create</a><br><br></h1>
+    <div class="container">
+    <div class="list-group">
+        {% for list in all_lists %}
+            <div class="row">
+                <div class="col-md-8">
+                    <a class="list-group-item list-group-item-action list-group-item-success" href="{{list.id}}">{{list.name}}-->Created On {{list.creation_date}}</a>
+                </div>
+            <div class="col-md-4">
+                <span class="pull-right">
+                    <a href="update/{{list.id}}" class="btn btn-danger">Update</a>
+                    <a href="delete/{{list.id}}" class="btn btn-danger">Delete</a>
+                </span>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+</body>
+</html>

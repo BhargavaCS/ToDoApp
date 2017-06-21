@@ -1,0 +1,12 @@
+<form action="" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        {% if field.label != "Creation date" and field.label != "User" %}
+            List {{field.label_tag}}  {{field}}
+            <br><br>
+        {% else %}
+            <input type="hidden" name= {{ field.label }}/>
+        {% endif %}
+    {% endfor %}
+    <input type="submit" value="Submit" />
+</form>

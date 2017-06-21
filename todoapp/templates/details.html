@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}" media="screen,projection"/>
+    <meta charset="UTF-8">
+    <title>ToDoTasks</title>
+</head>
+<body class="lead">
+<h1>
+    <u>To Do Items Are: </u><br><br>
+</h1>
+<div class="container">
+<table border="1" class="table table-striped">
+    <thead class="thead-inverse">
+    <tr>
+        <th>Description</th>
+        <th>Completed</th>
+        <th>Due By</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in items%}
+    <tr>
+        <td class="text-capitalize">{{item.description}}</td>
+        <td>{{item.completed}}</td>
+        <td>{{item.due_by}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+</body>
+</html>
