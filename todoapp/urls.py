@@ -19,4 +19,7 @@ urlpatterns=[
     url(r'^rest/items/(?P<pk>[0-9]+)/$', views.rest_items_id.as_view(), name='rest_lists_id'),
     url(r'^rest/lists/(?P<list_id>[0-9]+)/items/(?P<item_id>[0-9]+)/$',views.rest_list_id_items_id.as_view(),name='rest_list_id_item_id'),
     url(r'^rest/lists/(?P<list_id>[0-9]+)/items/$', views.rest_list_id_items.as_view(),name='rest_list_id_items'),
+
+    ###-Page-###
+    url(r'^home/$',views.HomeLists,name="home")
 ]

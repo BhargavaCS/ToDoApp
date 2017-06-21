@@ -8,13 +8,18 @@ from django.urls import reverse_lazy
 from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 import datetime
-from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth import *
 from todoapp.Serializers import *
 from django.http import *
 
 # Create your views here.
+
+def HomeLists(request):
+    all_lists = ToDoList.objects.all().filter(user__username=request.user)
+    print all_lists,request.user
+    context = {'all_lists': all_lists}
+    return render(request, 'D:\\DjangoProjects\\homeproject\\todoapp\\templates\\todoapp\\homepage.html', context)
 
 
 def ShowLists(request):

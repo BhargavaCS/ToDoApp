@@ -1,0 +1,10 @@
+$(document).ready(function(){
+     $("body").on('click','.col-md-8',function(){
+            id=$(this).parent().attr("id");
+            $.get("/todoapp/rest/lists/"+$(this).parent().attr("id")+"/items/",function(data,status){
+                    $('#generic').empty()
+                    $("#generic").append(JSON.stringify(data);
+                    $("#"+id).append(JSON.stringify(data));
+            });
+     });
+ });
