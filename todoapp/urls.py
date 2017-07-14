@@ -1,5 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
+from django.views.decorators.csrf import csrf_exempt
+
 from . import views
 
 urlpatterns=[
@@ -13,12 +15,12 @@ urlpatterns=[
     url(r'^lists/update/(?P<pk>[0-9]+)/$',views.UpdateList.as_view(),name='update_list'),
 
     ###--Rest_Apis--###
-    url(r'^rest/lists/$',views.rest_lists.as_view(), name="rest_lists"),
-    url(r'^rest/lists/(?P<pk>[0-9]+)/$', views.rest_lists_id.as_view() ,name='rest_lists_id'),
-    url(r'^rest/items/$',views.rest_items.as_view(), name='rest_items'),
-    url(r'^rest/items/(?P<pk>[0-9]+)/$', views.rest_items_id.as_view(), name='rest_lists_id'),
-    url(r'^rest/lists/(?P<list_id>[0-9]+)/items/(?P<item_id>[0-9]+)/$',views.rest_list_id_items_id.as_view(),name='rest_list_id_item_id'),
-    url(r'^rest/lists/(?P<list_id>[0-9]+)/items/$', views.rest_list_id_items.as_view(),name='rest_list_id_items'),
+    url(r'^rest/lists/$',csrf_exempt(views.rest_lists.as_view()), name="rest_lists"),
+    url(r'^rest/lists/(?P<pk>[0-9]+)/$', csrf_exempt(views.rest_lists_id.as_view()) ,name='rest_lists_id'),
+    url(r'^rest/items/$',csrf_exempt(views.rest_items.as_view()), name='rest_items'),
+    url(r'^rest/items/(?P<pk>[0-9]+)/$', csrf_exempt(views.rest_items_id.as_view()), name='rest_lists_id'),
+    url(r'^rest/lists/(?P<list_id>[0-9]+)/items/(?P<item_id>[0-9]+)/$',csrf_exempt(views.rest_list_id_items_id.as_view()),name='rest_list_id_item_id'),
+    url(r'^rest/lists/(?P<list_id>[0-9]+)/items/$', csrf_exempt(views.rest_list_id_items.as_view()),name='rest_list_id_items'),
 
     ###-Page-###
     url(r'^home/$',views.HomeLists,name="home")

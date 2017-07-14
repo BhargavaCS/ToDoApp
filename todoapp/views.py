@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -15,9 +18,11 @@ from django.http import *
 
 # Create your views here.
 
+
 def HomeLists(request):
+
     all_lists = ToDoList.objects.all().filter(user__username=request.user)
-    print all_lists,request.user
+    print all_lists, request.user
     context = {'all_lists': all_lists}
     return render(request, 'D:\\DjangoProjects\\homeproject\\todoapp\\templates\\todoapp\\homepage.html', context)
 
@@ -90,20 +95,37 @@ class DeleteList(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
 #######################-----Rest-APIs-----------######################
 
-class rest_lists(generics.ListCreateAPIView):
+class rest_lists(LoginRequiredMixin, generics.ListCreateAPIView):
+
     def get_queryset(self):
         return ToDoList.objects.all().filter(user__username=self.request.user)
 
+    def post(self, request, *args, **kwargs):
+        a = ToDoList();
+        date = datetime.datetime.today().strftime('%Y-%m-%d')
+        a.name = request.data['name']
+        a.creation_date = date
+        a.user = self.request.user
+        a.save()
+        return HttpResponse(status=201)
+
     serializer_class = ToDoListSerializer
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class rest_lists_id(generics.RetrieveUpdateDestroyAPIView):
+
     def get_object(self):
         return ToDoList.objects.all().filter(user__username=self.request.user).get(pk=self.kwargs['pk'])
 
+    def put(self, request, *args, **kwargs):
+        kwargs["partial"]=True
+        return self.update(request,*args,**kwargs)
+
     serializer_class = ToDoListSerializer
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class rest_items(generics.ListCreateAPIView):
     def get_queryset(self):
         return ToDoItem.objects.all().filter(parent__user__username=self.request.user)
@@ -111,13 +133,14 @@ class rest_items(generics.ListCreateAPIView):
     serializer_class = ToDoItemSerializer
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class rest_items_id(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         return ToDoItem.objects.all().filter(parent__user__username=self.request.user).get(pk=self.kwargs['pk'])
 
     serializer_class = ToDoItemSerializer
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class rest_list_id_items_id(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ToDoItemSerializer
 
@@ -132,7 +155,11 @@ class rest_list_id_items_id(generics.RetrieveUpdateDestroyAPIView):
         return self.update(request, *args, **kwargs)
 
 
-class rest_list_id_items(generics.ListCreateAPIView):
+@method_decorator(csrf_exempt, name='dispatch')
+class rest_list_id_items(LoginRequiredMixin, generics.ListCreateAPIView):
+    login_url = 'login'
+    fields = ['name']
+    success_url = reverse_lazy('lists')
     serializer_class = ToDoItemSerializer
 
     def get_queryset(self, queryset=None):
@@ -142,7 +169,9 @@ class rest_list_id_items(generics.ListCreateAPIView):
             return Http404
 
     def post(self, request, *args, **kwargs):
+        request.POST._mutable = True
         request.data['parent'] = self.kwargs['list_id']
+        #print self.kwargs['list_id'], request.POST['parent'], 'ssssssssssssssssssssssssssssssssssssssssssssss'
         return self.create(request, *args, **kwargs)
 
 

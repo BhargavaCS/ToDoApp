@@ -1,37 +1,80 @@
 <!DOCTYPE html>
 {% load static %}
-<html>
+<html xmlns="http://www.w3.org/1999/html" class="tot_html">
 <head>
     <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen"/>-->
     <!--<link href="css/bootstrap.min.css" rel="stylesheet"/>-->
-    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}" media="screen,projection"/>
+
     <meta charset="UTF-8">
     <title>To Do Lists</title>
-
-
+    <link rel="stylesheet" type="text/css" href="{% static 'Styles.css' %}" media="screen,projection"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}" media="screen,projection"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"/>
+    <meta name="staticpath" content="{% static 'helpers/'%}">
 </head>
-<body class="lead" class="text-justify" id="main_body">
+
+<body class="lead" class="text-justify" id="main_body" style="background-image:url('http://wallpapercave.com/wp/1PFHyYy.jpg')">
+
+    <div id="temp_body">
+    {% csrf_token %}
     <h1 align="center"><u>All To Do Lists Are:</u><br><br><a class="btn btn-warning" id="myheading">Create</a><br><br></h1>
-    <div class="container" id="d1" id="id1">
-    <div class="list-group" id="id2">
+    <div class="container"  id="id1">
+    <table  class="table table-hover">
+    <thead class="thead-inverse">
+    <tr>
+            <th style="text-align:center;">SNo.</th>
+            <th style="text-align:center;">List Name</th>
+            <th style="text-align:center;">Creation Date</th>
+            <th style="text-align:center;">Action</th>
+    </tr>
+    </thead>
+    <div id="id2">
         {% for list in all_lists %}
-            <div class="row btn" id="{{ list.id }}">
-                <div class="col-md-8">
-                    <a class="list-group-item list-group-item-action list-group-item-success">{{list.name}}-->Created On {{list.creation_date}}</a>
-                </div>
-                <div class="col-md-4">
-                <span class="pull-right">
-                    <a class="btn btn-danger" id="id7">Update</a>
-                    <a class="btn btn-danger" id="id8">Delete</a>
-                </span>
-                </div>
-            </div>
+        <tr id="{{  list.id  }}">
+            <td></td>
+            <td>
+                <div class="text">{{ list.name }}</div>
+                <i class="fa fa-list btn-outline-info dispitems" aria-hidden="true"></i>
+            </td>
+            <td>{{ list.creation_date }}</td>
+            <td align="center">
+                <i class="fa fa-edit btn btn-outline-warning update" aria-hidden="true"></i>
+                <span style="margin-left:10px;"><i class="fa fa-trash btn btn-outline-danger delete" aria-hidden="true"></i></span>
+            </td>
+        </tr>
         {% endfor %}
     </div>
-    <div id="generic"></div>
+    </table>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div id='myModal' class='modal fade' role='dialog'>
+      <div class='modal-dialog'>
+
+        <!-- Modal content-->
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+            <h4 class='modal-title'>Create List</h4>
+          </div>
+          <div class='modal-body'>
+            <input type='text' placeholder='Enter List Name Here' id='list_user'>
+          </div>
+          <div class='modal-footer'>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Create</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
     </div>
     <script src="{% static 'jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static 'jquery.tmpl.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'script.js' %}"></script>
-</body>
+        <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+    <script src="https://use.fontawesome.com/66cc350392.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static '/helpers/script.js' %}"></script>
+    </body>
 </html>

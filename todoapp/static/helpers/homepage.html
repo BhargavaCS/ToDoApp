@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load static %}
+<html xmlns="http://www.w3.org/1999/html" class="tot_html">
+<head>
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen"/>-->
+    <!--<link href="css/bootstrap.min.css" rel="stylesheet"/>-->
+
+    <meta charset="UTF-8">
+    <title>To Do Lists</title>
+    <meta name="staticpath" content="{% static 'helpers/'%}">
+</head>
+
+<body class="lead" class="text-justify" id="main_body">
+
+    <div id="temp_body">
+    {% csrf_token %}
+    <h1 align="center"><u>All To Do Lists Are:</u><br><br><a class="btn btn-warning" id="myheading">Create</a><br><br></h1>
+    <div class="container"  id="id1">
+    <table border="4px" class="table table-hover">
+    <thead class="thead-inverse">
+    <tr>
+            <th style="text-align:center;">SNo.</th>
+            <th style="text-align:center;">List Name</th>
+            <th style="text-align:center;">Creation Date</th>
+            <th style="text-align:center;">Action</th>
+    </tr>
+    </thead>
+    <div id="id2">
+        {% for list in all_lists %}
+        <tr>
+            <td></td>
+            <td id="{{ list.id }}">
+                {{ list.name }}
+                <i class="fa fa-list pull-right btn-outline-info dispitems" aria-hidden="true"></i>
+            </td>
+            <td>{{ list.creation_date }}</td>
+            <td align="center">
+                <i class="fa fa-edit btn btn-outline-warning" aria-hidden="true"></i>
+                <span style="margin-left:10px;"><i class="fa fa-trash btn btn-outline-danger" aria-hidden="true"></i></span>
+            </td>
+        </tr>
+        {% endfor %}
+    </div>
+    </table>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Create List</h4>
+          </div>
+          <div class="modal-body">
+            <input type="text" placeholder="Enter List Name Here" id="list_user">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Create</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+    <script src="{% static 'jquery-3.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'script.js' %}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}" media="screen,projection"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'Styles.css' %}" media="screen,projection"/>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    </body>
+</html>
